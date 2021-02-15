@@ -1,4 +1,4 @@
-# url: 
+# url: https://stepik.org/lesson/265110/step/7?thread=solutions&unit=246058
 from math import sqrt
 
 a, b, c = float(input()), float(input()), float(input())
