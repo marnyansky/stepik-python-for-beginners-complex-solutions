@@ -1,0 +1,5 @@
+# url: https://stepik.org/lesson/265115/step/8?thread=solutions&unit=246063
+
+a, b, c = input(), input(), input()
+print(min(a, b, c, key=len))
+print(max(a, b, c, key=len))
