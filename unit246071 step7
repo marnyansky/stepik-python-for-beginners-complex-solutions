@@ -9,6 +9,14 @@ https://stepik.org/lesson/265122/step/7?unit=246071
 + сумму его первой и последней цифры.
 """
 
+# best solution:
+
+from functools import reduce
+n = [int(i) for i in input()]
+print(sum(n), len(n), reduce(lambda x, y: x * y, n), sum(n) / len(n), n[0], n[0] + n[-1], sep='\n')
+
+# my solution:
+
 num_str = input()
 num = int(num_str)
 
