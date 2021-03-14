@@ -29,10 +29,10 @@ class GuessRandomNumber:
         try:
             if left_border <= int(x) <= right_border:
                 return int(x)
-            print(f'Ошибочное число! Введите число от {left_border} до {right_border}')
+            print(f'Ошибочное число! Введите целое число от {left_border} до {right_border}')
             return False
         except ValueError:
-            print(f'Ошибка ввода! Введите число от {left_border} до {right_border}')
+            print(f'Ошибка ввода! Введите целое число от {left_border} до {right_border}')
             return False
 
     def compare_numbers(self, attempt_number, target_number):
