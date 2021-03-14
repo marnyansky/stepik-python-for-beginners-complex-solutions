@@ -1,0 +1,19 @@
+values:
+-1		COMMENT: should == -1
+0		COMMENT: should == 0
+01		COMMENT: should == 01 (==1)
+1		COMMENT: should == 1
++2		COMMENT: should == 2
+1_0		COMMENT: should == 10
+1.1		COMMENT: should == 1
+1.a		COMMENT: should == 1
+1..		COMMENT: should == 1
+100		COMMENT: should == 100
+101		COMMENT: should == 101
+1,0		COMMENT: should == 10
+a		COMMENT: except
+{press Enter}	COMMENT: except
+   48		COMMENT: 48
+   49		COMMENT: 49
+   5 0		COMMENT: 50
+_51		COMMENT: 51
