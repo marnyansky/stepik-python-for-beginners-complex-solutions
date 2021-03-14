@@ -26,6 +26,9 @@ class GuessRandomNumber:
         self.guess_target_number_until_success()
 
     def verify_and_return_number(self, x):
+        x = x.strip().split('.')[0]
+        x = ''.join(ch for ch in x if ch.isdigit() or ch in '-+')
+
         try:
             if left_border <= int(x) <= right_border:
                 return int(x)
