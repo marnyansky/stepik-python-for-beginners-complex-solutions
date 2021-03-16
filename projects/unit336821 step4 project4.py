@@ -29,52 +29,40 @@ class CaesarCipher:
 
     def crypt_string(self, user_string, operation_type, alphabet, alpha_len, alpha_shift):
         user_string = user_string.strip()
+        if len(user_string) == 0:
+            return ''
 
         # check: string contains chars from specified alphabet
-        if alphabet == LATIN and not any(
-                ('A' <= chr(ord(ch)) <= 'Z') or ('a' <= chr(ord(ch)) <= 'z') for ch in user_string):
+        if alphabet == LATIN and not any(ch in [*LATIN_UPPER, *LATIN_LOWER] for ch in user_string):
             return f'String does not contain any {LATIN} character'
-        if alphabet == CYRILLIC and not any(
-                ('А' <= chr(ord(ch)) <= 'Я') or ('а' <= chr(ord(ch)) <= 'я') for ch in user_string):
+        if alphabet == CYRILLIC and not any(ch in [*CYRILLIC_UPPER, *CYRILLIC_LOWER] for ch in user_string):
             return f'String does not contain any {CYRILLIC} character'
 
         # encryption / decryption
         result = ''
         if operation_type == 'decrypt':
             alpha_shift = -alpha_shift
-        if len(user_string) > 0:
-            for ch in user_string:
-                raw_ch = chr(ord(ch) + alpha_shift)  # check for shift outside alphabet
-                if ch in LATIN_UPPER:
-                    if raw_ch < 'A':
-                        result += chr(ord(ch) + alpha_len + alpha_shift)
-                    elif raw_ch > 'Z':
-                        result += chr(ord(ch) - alpha_len + alpha_shift)
-                    else:
-                        result += chr(ord(ch) + alpha_shift)
-                elif ch in LATIN_LOWER:
-                    if raw_ch < 'a':
-                        result += chr(ord(ch) + alpha_len + alpha_shift)
-                    elif raw_ch > 'z':
-                        result += chr(ord(ch) - alpha_len + alpha_shift)
-                    else:
-                        result += chr(ord(ch) + alpha_shift)
-                elif ch in CYRILLIC_UPPER:
-                    if raw_ch < 'А':
-                        result += chr(ord(ch) + alpha_len + alpha_shift)
-                    elif raw_ch > 'Я':
-                        result += chr(ord(ch) - alpha_len + alpha_shift)
-                    else:
-                        result += chr(ord(ch) + alpha_shift)
-                elif ch in CYRILLIC_LOWER:
-                    if raw_ch < 'а':
-                        result += chr(ord(ch) + alpha_len + alpha_shift)
-                    elif raw_ch > 'я':
-                        result += chr(ord(ch) - alpha_len + alpha_shift)
-                    else:
-                        result += chr(ord(ch) + alpha_shift)
-                else:
-                    result += ch
+
+        for ch in user_string:
+            raw_ch = chr(ord(ch) + alpha_shift)
+            # if alphabet shift outside alphabet (numeric char value is too small)
+            if (ch in LATIN_UPPER and raw_ch < LATIN_UPPER[0]) \
+                    or (ch in LATIN_LOWER and raw_ch < LATIN_LOWER[0]) \
+                    or (ch in CYRILLIC_UPPER and raw_ch < CYRILLIC_UPPER[0]) \
+                    or (ch in CYRILLIC_LOWER and raw_ch < CYRILLIC_LOWER[0]):
+                result += chr(ord(ch) + alpha_len + alpha_shift)
+            # elif alphabet shift outside alphabet (numeric char value is too large)
+            elif (ch in LATIN_UPPER and raw_ch > LATIN_UPPER[-1]) \
+                    or (ch in LATIN_LOWER and raw_ch > LATIN_LOWER[-1]) \
+                    or (ch in CYRILLIC_UPPER and raw_ch > CYRILLIC_UPPER[-1]) \
+                    or (ch in CYRILLIC_LOWER and raw_ch > CYRILLIC_LOWER[-1]):
+                result += chr(ord(ch) - alpha_len + alpha_shift)
+            # elif alphabet shift inside alphabet
+            elif ch in [*LATIN_UPPER, *LATIN_LOWER, *CYRILLIC_UPPER, *CYRILLIC_LOWER]:
+                result += chr(ord(ch) + alpha_shift)
+            # else no alphabet shift for non-latin and non-cyrillic characters
+            else:
+                result += ch
         return result
 
     def interact(self):
